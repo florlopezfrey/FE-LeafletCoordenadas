@@ -23,6 +23,8 @@ mymap.on('click', function (e) {
 
   marker.bindPopup(popup); //suma el popup al marker
 
+  mymap.flyTo(e.latlng, 18);
+
   //agrega popup con data de coordenadas
   popup
       .setLatLng(e.latlng) // Setea el punto donde se abrirá el popup
@@ -32,3 +34,5 @@ mymap.on('click', function (e) {
 });
 
 var popup = L.popup();
+
+
