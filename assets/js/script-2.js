@@ -5,17 +5,30 @@ var tileLayer = new L.TileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}
   accessToken: 'pk.eyJ1IjoiZmxvcnF1aXF1ZSIsImEiOiJjazZqM3N3bWgwNWgwM2xwNWF5bWRrMThpIn0.ZNyIK6yFZoRvFxptgdpqZw'
 });
 
-// L.map es la clase central de la API
 var mymap = new L.Map('mapid', {
   'center': [41.387, 2.17],
   'zoom': 15,
   'layers': [tileLayer]
 });
 
-L.control.scale().addTo(mymap);
+var marker;
 
-// marcador
-var marker = L.marker([41.3868561, 2.1661102],{draggable: true}).addTo(mymap);
+mymap.on('click', function (e) {
+  
+  //agrega marcador
+  if (marker) {
+    mymap.removeLayer(marker);
+  }
+  marker = new L.Marker(e.latlng).addTo(mymap);
 
-// cartelito
-marker.bindPopup("<b>¡Aquí está el restaurante!</b><br>Calle Balmes, 16, 08007, Barcelona <3");
+  marker.bindPopup(popup); //suma el popup al marker
+
+  //agrega popup con data de coordenadas
+  popup
+      .setLatLng(e.latlng) // Setea el punto donde se abrirá el popup
+      .setContent("Las coordenadas son:<br> " +  e.latlng.lat.toString() + " y " +  e.latlng.lng.toString())
+      .openOn(mymap); // Carga el popup y cierra el anterior
+
+});
+
+var popup = L.popup();
